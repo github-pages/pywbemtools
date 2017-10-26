@@ -42,46 +42,46 @@ matrix:
       python: "2.7"
       env:
         - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "3.4"
-#      env:
-#        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "3.4"
+      env:
+        - PACKAGE_LEVEL=minimum
     - os: linux
       language: python
       python: "3.4"
       env:
         - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "3.5"
-#      env:
-#        - PACKAGE_LEVEL=minimum
-#    - os: linux
-#      language: python
-#      python: "3.5"
-#      env:
-#        - PACKAGE_LEVEL=latest
-#    - os: linux
-#      language: python
-#      python: "3.6"
-#      env:
-#        - PACKAGE_LEVEL=minimum
-#    - os: linux
-#      language: python
-#      python: "3.6"
-#      env:
-#        - PACKAGE_LEVEL=latest
+    - os: linux
+      language: python
+      python: "3.5"
+      env:
+        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "3.5"
+      env:
+        - PACKAGE_LEVEL=latest
+    - os: linux
+      language: python
+      python: "3.6"
+      env:
+        - PACKAGE_LEVEL=minimum
+    - os: linux
+      language: python
+      python: "3.6"
+      env:
+        - PACKAGE_LEVEL=latest
     - os: linux
       language: python
       python: "3.7"
       env:
         - PACKAGE_LEVEL=minimum
-#    - os: linux
-#      language: python
-#      python: "3.7"
-#      env:
-#        - PACKAGE_LEVEL=latest
+    - os: linux
+      language: python
+      python: "3.7"
+      env:
+        - PACKAGE_LEVEL=latest
 # Note: pywbem does not install on pypy, because M2Crypto does not install.
 #    - os: linux
 #      language: python
@@ -93,30 +93,30 @@ matrix:
 #      python: "pypy-5.3.1"  # Python 2.7.10
 #      env:
 #        - PACKAGE_LEVEL=latest
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=2
-#        - PACKAGE_LEVEL=minimum
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=2
-#        - PACKAGE_LEVEL=latest
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=3
-#        - PACKAGE_LEVEL=minimum
-#    - os: osx
-#      language: generic
-#      python:
-#      env:
-#        - PYTHON=3
-#        - PACKAGE_LEVEL=latest
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=2
+        - PACKAGE_LEVEL=minimum
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=2
+        - PACKAGE_LEVEL=latest
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=3
+        - PACKAGE_LEVEL=minimum
+    - os: osx
+      language: generic
+      python:
+      env:
+        - PYTHON=3
+        - PACKAGE_LEVEL=latest
 
 before_install:
   - if [[ "$TRAVIS_BRANCH" == "manual-ci-run" ]]; then
