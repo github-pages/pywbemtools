@@ -403,6 +403,7 @@ The ``instance`` command group has commands that act on CIM instances:
 * :ref:`Instance modify command` - Modify properties of an instance.
 * :ref:`Instance references command` - Execute a query on instances in a namespace.
 * :ref:`Instance query command` - List the instances referencing an instance.
+* :ref:`Instance shrub command` - Display association instance relationships.
 
 See :ref:`pywbemcli instance --help`.
 
@@ -786,6 +787,83 @@ Valid output formats are :term:`CIM object output formats` or
 :term:`Table output formats`.
 
 See :ref:`pywbemcli instance query --help` for the exact help output of the command.
+
+.. _`Instance query command`:
+
+Instance shrub command
+^^^^^^^^^^^^^^^^^^^^^^
+
+The ``instance shrub`` command executes a set of requests to get the
+association relationships for a non-association CIM instance defined by
+INSTANCENAME in a namespace and displays the result either as tree in ascii on
+the console or as a table showing the roles, reference classes and associated
+classed and associated instances for the input instance.
+
+The concept of the shrub is a structure that attempts to show all of the
+relationships and the path between the input INSTANCENAME and the associated
+instances whereas the References command only shows reference classes or
+instances and the Associators command only shows associated classes or instances.
+
+The query is specified with the ``QUERY`` argument and must be a valid query
+in the query language specified with the ``--query-language`` command option.
+The default for that option is ``DMTF:CQL`` (see :term:`CQL`).
+
+The namespace for the INSTANCENAME is specified with the ``-namespace``/``-n``
+command option, or otherwise is the default namespace of the connection.
+
+Valid output formats are :term:`Table output formats` or the default.
+
+See :ref:`pywbemcli instance shrub --help` for the exact help output of the command.
+
+
+Example:
+
+.. code-block:: text
+
+    $ pywbemcli instance shrub root/cimv2:TST_EP.InstanceID=1
+
+    TST_EP.InstanceID=1
+     +-- Initiator(Role)
+         +-- TST_A3(AssocClass)
+             +-- Target(ResultRole)
+             |   +-- TST_EP(ResultClass)(3 insts)
+             |       +-- TST_EP.InstanceID=2(refinst:0)
+             |       +-- TST_EP.InstanceID=5(refinst:1)
+             |       +-- TST_EP.InstanceID=7(refinst:2)
+             +-- LogicalUnit(ResultRole)
+                 +-- TST_LD(ResultClass)(3 insts)
+                     +-- TST_LD.InstanceID=3(refinst:0)
+                     +-- TST_LD.InstanceID=6(refinst:1)
+                     +-- TST_LD.InstanceID=8(refinst:2)
+
+This displays the Role (Initiator), AssociationClass (TST_A3), etc for the
+instance name defined in the command.
+
+The resulting table output for the same command but with -o table is:
+
+Example:
+
+.. code-block:: text
+
+    $ pywbemcli instance shrub root/cimv2:TST_EP.InstanceID=1
+
+    Shrub of root/cimv2:TST_EP.InstanceID=1
+    +-----------+-------------------+--------------+--------------------+-------------------------+
+    | Role      | Reference Class   | ResultRole   | Associated Class   | Assoc Inst paths        |
+    |-----------+-------------------+--------------+--------------------+-------------------------|
+    | Initiator | TST_A3            | Target       | TST_EP             | /:TST_EP.               |
+    |           |                   |              |                    | InstanceID=2(refinst:0) |
+    |           |                   |              |                    | /:TST_EP.               |
+    |           |                   |              |                    | InstanceID=5(refinst:1) |
+    |           |                   |              |                    | /:TST_EP.               |
+    |           |                   |              |                    | InstanceID=7(refinst:2) |
+    | Initiator | TST_A3            | LogicalUnit  | TST_LD             | /:TST_LD.               |
+    |           |                   |              |                    | InstanceID=3(refinst:0) |
+    |           |                   |              |                    | /:TST_LD.               |
+    |           |                   |              |                    | InstanceID=6(refinst:1) |
+    |           |                   |              |                    | /:TST_LD.               |
+    |           |                   |              |                    | InstanceID=8(refinst:2) |
+    +-----------+-------------------+--------------+--------------------+-------------------------+
 
 
 .. _`qualifier command group`:

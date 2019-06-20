@@ -1004,6 +1004,46 @@ def format_keys(obj, max_width):
     return wbem_uri_keys
 
 
+def shorten_path_str(path, replacements):
+    """
+    Create a short-form path str from the input CIMInstanceName with
+    selected components shortened to just a single known character.  In
+    particular this allows modifying the path string to replace selected
+    key/value paris with a single character. Thus where the original string is
+    very long and contains repeated key bindings (ex. CreationClassName) we can
+    shorten the path string by reducing selected key/value pairs to just ~
+
+    Parameters:
+
+      path (:class:`CIMInstanceName`):
+
+      replacements:
+        Dictionary of the replacements containing a key names and key
+        values to be replaced. If the key value is None, they name alone
+        causes the replacement. Otherwise, both the name and value must
+        match.
+
+    Returns:
+        String representation of the path but with the replacement items
+        in the replacements dictionary replaced by a single character.
+    """
+    kbs = path.keybindings
+    repl_list = []
+    magicvalue = 9999123999918
+    for k, v in kbs.items():
+        for key, value in replacements.items():
+            if k == key:
+                if value is None or v == value:
+                    repl_list.append((key, value))
+                    # set the value to a known value for the replacement
+                    kbs[key] = magicvalue
+    name_str = path.to_wbem_uri()
+    # replace each key binding in repl_list with ~ char
+    for key, value in repl_list:
+        name_str = name_str.replace("{}={}".format(key, magicvalue), "~", 1)
+    return name_str
+
+
 def _print_paths_as_table(objects, table_width, table_format):
     # pylint: disable=unused-argument
     """
